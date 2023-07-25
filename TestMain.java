@@ -1,6 +1,4 @@
-package Hibernate;
-
-import java.util.Scanner;
+package ManytoMany;
 
 import javax.persistence.Entity;
 
@@ -8,76 +6,52 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+
+
 @Entity
 public class TestMain {
 	public static void main(String[] args) {
+		StudentInfo st = new StudentInfo();
+		st.setSname("Akanksha");
+		StudentInfo st1 = new StudentInfo();
+		st1.setSname("Prakash");
 		
-		/*Scanner sc = new Scanner(System.in);
-		System.out.println("Enter the Employee Detail");
-		int id=sc.nextInt();
-		String name=sc.next();
-		String address=sc.next();
-		double salary = sc.nextDouble();
-		Employee e1 = new Employee();
-		e1.setId(id);
-		e1.setName(name);
-		e1.setAddress(address);
-		e1.setSalary(salary);*/
+		Course c = new Course();
+		c.setCname("Full Stack Java Developer");
 		
-		 
-		EmployeeHql e1 = new EmployeeHql();
-		e1.setId(101);
-		e1.setName("Prakash");
-		e1.setAddress("Yevat");
-		e1.setSalary(1000000);
+		Course c1 = new Course();
+		c1.setCname("Python Developer");
+		
+		st.getAl().add(c);
+		st.getAl().add(c1);
+		
+		st1.getAl().add(c);
+		st1.getAl().add(c1);
 		
 		
-		EmployeeHql e2 = new EmployeeHql();
-		e2.setId(102);
-		e2.setName("akanksha");
-		e2.setAddress("Khamgaon");
-		e2.setSalary(2000000);
+		c.getLl().add(st);
+		c.getLl().add(st1);
+		
+		c1.getLl().add(st);
+		c1.getLl().add(st1);
 		
 		
-		EmployeeHql e3 = new EmployeeHql();
-		e3.setId(103);
-		e3.setName("Nayan");
-		e3.setAddress("Barshi");
-		e3.setSalary(400000);
-		
-		
-		EmployeeHql e4 = new EmployeeHql();
-		e4.setId(104);
-		e4.setName("akshay");
-		e4.setAddress("Satara");
-		e4.setSalary(900000);
 		
 		
 		Configuration cfg = new Configuration();
-		cfg.configure().addAnnotatedClass(EmployeeHql.class);
+		cfg.configure().addAnnotatedClass(StudentInfo.class).addAnnotatedClass(Course.class);
 		SessionFactory session=cfg.buildSessionFactory();
 		Session s = session.openSession();
 		Transaction t =s.beginTransaction();
-		s.save(e1);
-		s.save(e2);
-		s.save(e3);
-		s.save(e4);
-		// s.update(e1);
-		//s.update(e2);
-		//s.delete(e1);
+		s.save(c);
+		s.save(c1);
+		
+		s.save(st1);
+		s.save(st);
 		t.commit();
 		s.close();
 		session.close();
 		System.out.println("Done");
-		
-		/**Employee e = (Employee) s.get(Employee.class, 102);
-		System.out.println(e);
-		
-		Employee ee = (Employee) s.get(Employee.class, 102);
-		System.out.println(ee);
-		t.commit();
-		s.close();
-		session.close();**/
-		}
+	}
 
 }
